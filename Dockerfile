@@ -13,7 +13,7 @@ FROM debian:bullseye-slim
 WORKDIR /usr/src/app
 
 # Copy the compiled binary from the build stage
-COPY --from=build /usr/src/app/target/release/your_app_name .  # Replace "your_app_name" with your actual binary name
+COPY --from=build /usr/src/app/target/release/your_app_name .  
 
 # Command to run your Rust application
-CMD ["./your_app_name"]  # Replace "your_app_name" with your actual binary name
+CMD ["./your_app_name"]
