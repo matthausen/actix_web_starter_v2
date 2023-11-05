@@ -1,14 +1,14 @@
 use std::sync::Arc;
 use crate::Item;
-use crate::repositories::ItemRepository;
+use crate::repositories::ItemStorage;
 
 #[derive(Clone)]
 pub struct ItemService {
-    pub repository: Arc<dyn ItemRepository>,
+    pub repository: Arc<dyn ItemStorage>,
 }
 
 impl ItemService {
-    pub fn new(repository: Arc<dyn ItemRepository>) -> Self {
+    pub fn new(repository: Arc<dyn ItemStorage>) -> Self {
         ItemService { repository }
     }
 

@@ -1,5 +1,5 @@
 [package]
-name = "rust_dep_inj_example"
+name = "rust_actix_starter_v2"
 version = "0.1.0"
 edition = "2021"
 

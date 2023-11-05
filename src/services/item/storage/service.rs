@@ -1,12 +1,13 @@
-use crate::Item;
 use rusoto_dynamodb::{AttributeValue, DynamoDb, PutItemInput};
 use std::collections::HashMap;
 use tokio::sync::Mutex;
 use std::sync::Arc;
 use async_trait::async_trait;
 
+use crate::services::item::storage::model::Item;
+
 #[async_trait]
-pub trait ItemRepository: Send + Sync {
+pub trait ItemStorage: Send + Sync {
     async fn create_item(&self, item: Item) -> Result<(), Box<dyn std::error::Error>>;
 }
 
@@ -50,7 +51,7 @@ impl DynamoDbItemRepository {
 }
 
 #[async_trait]
-impl ItemRepository for DynamoDbItemRepository {
+impl ItemStorage for DynamoDbItemRepository {
     async fn create_item(&self, item: Item) -> Result<(), Box<dyn std::error::Error>> {
         let input_values = DynamoDbItemRepository::convert_to_attribute_values(&item);
         let input = PutItemInput {
@@ -59,7 +60,7 @@ impl ItemRepository for DynamoDbItemRepository {
             ..Default::default()
         };
 
-        let mut client = self.client.lock().await;
+        let client = self.client.lock().await;
         client.put_item(input).await?;
         Ok(())
     }
