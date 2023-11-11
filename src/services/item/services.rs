@@ -1,18 +1,18 @@
 use std::sync::Arc;
 use crate::Item;
-use crate::repositories::ItemStorage;
+use crate::storage::ItemStorage;
 
 #[derive(Clone)]
 pub struct ItemService {
-    pub repository: Arc<dyn ItemStorage>,
+    pub storage: Arc<dyn ItemStorage>,
 }
 
 impl ItemService {
-    pub fn new(repository: Arc<dyn ItemStorage>) -> Self {
-        ItemService { repository }
+    pub fn new(storage: Arc<dyn ItemStorage>) -> Self {
+        ItemService { storage }
     }
 
     pub async fn create_item(&self, item: Item) -> Result<(), Box<dyn std::error::Error>> {
-        self.repository.create_item(item).await
+        self.storage.create_item(item).await
     }
 }

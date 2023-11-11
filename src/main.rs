@@ -23,14 +23,14 @@ async fn main() -> std::io::Result<()> {
     let client = Arc::new(Mutex::new(client));
    
 
-    // Create a shared repository instance
-    let item_repository: Arc<dyn ItemStorage> = Arc::new(DynamoDbItemRepository { client, table_name });
+    // Create a shared storage instance
+    let item_storage: Arc<dyn ItemStorage> = Arc::new(DynamoDbItemRepository { client, table_name });
 
 
     // Start the Actix web server
     HttpServer::new(move || {
         App::new()
-            .app_data(web::Data::new(item_repository.clone()))
+            .app_data(web::Data::new(item_storage.clone()))
             .configure(configure_routes)
     })
     .bind("127.0.0.1:8080")?

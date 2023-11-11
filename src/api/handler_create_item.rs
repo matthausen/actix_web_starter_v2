@@ -17,7 +17,7 @@ pub struct ItemRequest {
 // Example route handler
 pub async fn create_item_handler(
     item: web::Json<ItemRequest>, 
-    item_repository: web::Data<Arc<dyn ItemStorage>>,
+    item_storage: web::Data<Arc<dyn ItemStorage>>,
 ) -> impl actix_web::Responder {
 
     // logic
@@ -25,7 +25,7 @@ pub async fn create_item_handler(
 
     let input = item_req_to_item_model(item);
 
-    match item_repository.create_item(input.into_inner()).await {
+    match item_storage.create_item(input.into_inner()).await {
         Ok(_) => actix_web::HttpResponse::Ok().finish(),
         Err(e) => {
             println!("handler error {}", e);
