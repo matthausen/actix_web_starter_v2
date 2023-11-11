@@ -20,9 +20,6 @@ pub async fn create_item_handler(
     item_storage: web::Data<Arc<dyn ItemStorage>>,
 ) -> impl actix_web::Responder {
 
-    // logic
-    println!("handler started");
-
     let input = item_req_to_item_model(item);
 
     match item_storage.create_item(input.into_inner()).await {
@@ -45,3 +42,10 @@ fn item_req_to_item_model(req: web::Json<ItemRequest>) -> web::Json<Item> {
     // Convert Item object to JSON and respond with it
     web::Json(item)
 }
+
+// Tests
+#[cfg(test)]
+mod tests {
+              
+}
+
